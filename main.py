@@ -4,6 +4,8 @@ from sklearn.preprocessing import LabelEncoder
 import xgboost as xgb
 import joblib
 import numpy as np
+import shap
+
 
 
 df1 = pd.read_csv("sme1.csv").sample(n=100000, random_state=42)
@@ -181,4 +183,42 @@ def get_risk_band(credit_score):
         return 'Medium Risk'
     else:
         return 'High Risk' 
+    
+credits_scores = map_to_credit_score(y_pred_prob)
+risk_band_score= [get_risk_band(score) for score in credits_scores]
 
+# Explainability with SHAP
+explainer = shap.TreeExplainer(model)
+sample_size = min(1000, len(X_test_processed))
+X_test_sample = X_test_processed.iloc[:sample_size]
+shap_values = explainer.shap_values(X_test_sample)
+
+# Explanation layer
+def generate_plain_english_explanation(feature_name, feature_value, shap_value):
+    if shap_value > 0:
+        impact = "increases"
+    else:
+        impact = "decreases"
+    
+    explanations = {
+        'revol_util': f"Revolving credit utilization of {feature_value:.1f}% {impact} risk",
+        'dti': f"Debt-to-income ratio of {feature_value:.2f} {impact} risk",
+        'annual_inc': f"Annual income of ${feature_value:,.0f} {impact} risk",
+        'int_rate': f"Interest rate of {feature_value:.2f}% {impact} risk",
+        'loan_amnt': f"Loan amount of ${feature_value:,.0f} {impact} risk",
+        'delinq_2yrs': f"{int(feature_value)} delinquencies in 2 years {impact} risk",
+        'inq_last_6mths': f"{int(feature_value)} credit inquiries in 6 months {impact} risk",
+        'open_acc': f"{int(feature_value)} open credit accounts {impact} risk",
+        'total_acc': f"{int(feature_value)} total credit accounts {impact} risk",
+        'pub_rec': f"{int(feature_value)} public records {impact} risk",
+        'credit_history_length_months': f"Credit history of {int(feature_value)} months {impact} risk",
+        'income_to_loan_ratio': f"Income-to-loan ratio of {feature_value:.2f} {impact} risk",
+        'inquiry_intensity_score': f"Inquiry intensity score of {feature_value:.1f} {impact} risk",
+        'delinquency_severity_score': f"Delinquency severity score of {feature_value:.1f} {impact} risk",
+    }
+
+    for key,template in explanations.items():
+        if key in feature_name.lower():
+            return template
+        
+    return f"{feature_name} with value {feature_value} {impact} risk"
