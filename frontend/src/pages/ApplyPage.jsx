@@ -159,7 +159,7 @@ export default function ApplyPage() {
     const numFields = ['loan_amnt','int_rate','installment','annual_inc','dti','inq_last_6mths','delinq_2yrs','open_acc','total_acc','revol_bal','revol_util','pub_rec','pub_rec_bankruptcies','fico_range_low','fico_range_high','delinq_amnt','num_tl_30dpd','num_tl_90g_dpd_24m']
     numFields.forEach(k => { if (payload[k] !== '') payload[k] = Number(payload[k]) })
     try {
-      const res = await fetch('http://localhost:8000/predict', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

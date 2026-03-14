@@ -12,8 +12,8 @@ backend/__pycache__/
 .Python
 
 # ── ML artifacts ─────────────────────────────────────────────
-ml/loan_model.pkl
-ml/label_encoder.pkl
+# ml/loan_model.pkl
+# ml/label_encoder.pkl
 
 # ── Node / Frontend ──────────────────────────────────────────
 frontend/node_modules/
