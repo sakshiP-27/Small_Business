@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap');
+
+:root {
+  --navy:        #0b1929;
+  --navy-mid:    #122338;
+  --navy-light:  #1c3550;
+  --blue:        #1e5f8e;
+  --blue-mid:    #2e7ab5;
+  --blue-light:  #5ba3d0;
+  --blue-pale:   #d6eaf8;
+  --sky:         #e8f4fd;
+  --gold:        #b8973a;
+  --gold-warm:   #c9a84c;
+  --gold-light:  #d4b96a;
+  --gold-pale:   #f0e4c0;
+  --cream:       #f7f3ec;
+  --cream-mid:   #ede6d8;
+  --cream-dark:  #e0d5c0;
+  --white:       #ffffff;
+  --text-dark:   #0b1929;
+  --text-mid:    #2c3e52;
+  --text-soft:   #5a6e82;
+  --text-light:  #8a9bac;
+  --border-light: rgba(184, 151, 58, 0.18);
+  --border-blue:  rgba(46, 122, 181, 0.2);
+  --shadow-sm:   0 2px 12px rgba(11, 25, 41, 0.07);
+  --shadow-md:   0 8px 32px rgba(11, 25, 41, 0.12);
+  --shadow-lg:   0 24px 64px rgba(11, 25, 41, 0.18);
+  --shadow-gold: 0 8px 32px rgba(184, 151, 58, 0.22);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+#root { width: 100%; min-height: 100svh; text-align: left; }
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1.12;
+  font-weight: 600;
+}
+
+h4, h5 {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+}
+
+button { cursor: pointer; font-family: 'DM Sans', sans-serif; }
+input, select { font-family: 'DM Sans', sans-serif; }
