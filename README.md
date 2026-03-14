@@ -2,6 +2,9 @@
 
 > Know your loan eligibility before you walk into a bank. Knowledge is leverage.
 
+**🔗 Live Demo:** [https://nex-score-gamma.vercel.app](https://nex-score-gamma.vercel.app)
+**⚙️ Backend API:** [https://nexscore.onrender.com](https://nexscore.onrender.com)
+
 NexScore is an AI-powered loan eligibility prediction web app. Enter your financial profile, and an XGBoost model trained on 160,000 real loan records tells you — in under 3 seconds — whether you'd be accepted or rejected, why, and what your credit score looks like.
 
 ---
