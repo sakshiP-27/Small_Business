@@ -20,7 +20,7 @@ print(f"  Accepted: {len(accepted_df):,} | Rejected: {len(rejected_df):,}")
 SAMPLE_SIZE = 80_000
 accepted_df = accepted_df.sample(n=min(SAMPLE_SIZE, len(accepted_df)), random_state=42)
 rejected_df = rejected_df.sample(n=min(SAMPLE_SIZE, len(rejected_df)), random_state=42)
-print(f"  Sampled  — Accepted: {len(accepted_df):,} | Rejected: {len(rejected_df):,}")
+print(f"  Sampled  → Accepted: {len(accepted_df):,} | Rejected: {len(rejected_df):,}")
 
 # ── 2. MAP TO SHARED FEATURE SPACE ───────────────────────────
 # sme2 only has: Amount Requested, Debt-To-Income Ratio,
@@ -136,7 +136,7 @@ acc = accuracy_score(y_test_enc, y_pred)
 roc = roc_auc_score(y_test_enc, y_pred_prob)
 print(f"  Accuracy: {acc*100:.2f}%  |  ROC-AUC: {roc:.4f}")
 print(classification_report(y_test_enc, y_pred, target_names=le.classes_))
-print(f"  Prob dist — mean: {y_pred_prob.mean():.3f}  std: {y_pred_prob.std():.3f}  min: {y_pred_prob.min():.3f}  max: {y_pred_prob.max():.3f}")
+print(f"  Prob dist → mean: {y_pred_prob.mean():.3f}  std: {y_pred_prob.std():.3f}  min: {y_pred_prob.min():.3f}  max: {y_pred_prob.max():.3f}")
 
 # ── 6. SHAP + SAVE ───────────────────────────────────────────
 print("\n[6/6] SHAP explainer + saving...")
@@ -177,4 +177,4 @@ joblib.dump(pkg, 'loan_model.pkl')
 joblib.dump(le,  'label_encoder.pkl')
 
 print("\n  ✓ loan_model.pkl saved")
-print(f"\nDONE — Accuracy: {acc*100:.2f}%  ROC-AUC: {roc:.4f}")
+print(f"\nDONE → Accuracy: {acc*100:.2f}%  ROC-AUC: {roc:.4f}")

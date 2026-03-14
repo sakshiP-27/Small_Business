@@ -665,22 +665,27 @@
 .feat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
 
 .feat-icon {
-  font-size: 26px;
-  margin-bottom: 16px;
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 18px;
   display: block;
+  letter-spacing: -0.5px;
 }
 
 .feat-card h4 {
-  font-size: 17px;
+  font-size: 18px;
   color: var(--navy);
   margin-bottom: 10px;
   font-weight: 600;
 }
 
 .feat-card p {
-  font-size: 13.5px;
+  font-size: 14.5px;
   color: var(--text-soft);
-  line-height: 1.7;
+  line-height: 1.75;
   font-weight: 300;
 }
 

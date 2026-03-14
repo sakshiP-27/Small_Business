@@ -103,7 +103,7 @@ def predict():
     if not body:
         return jsonify({"error": "Request body is required"}), 400
 
-    # Coerce all numeric fields — empty string → 0
+    # Coerce all numeric fields → empty string → 0
     NUMERIC = ['loan_amnt','int_rate','installment','annual_inc','dti',
                'inq_last_6mths','delinq_2yrs','open_acc','total_acc',
                'revol_bal','revol_util','pub_rec','pub_rec_bankruptcies',

@@ -86,7 +86,7 @@ export default function LandingPage() {
             transition={{ duration: 0.7, delay: 0.24 }}
           >
             Our intelligent credit model analyzes your full financial profile and
-            delivers a transparent, data-driven assessment — in seconds.
+            delivers a transparent, data-driven assessment → in seconds.
           </motion.p>
 
           <motion.div className="hero-actions"
@@ -192,7 +192,7 @@ export default function LandingPage() {
           <div className="steps-grid">
             {[
               { num: '01', title: 'Enter your details', desc: 'Fill in your loan requirements and financial profile through our guided, step-by-step form.', color: 'var(--blue-pale)' },
-              { num: '02', title: 'AI analyzes your profile', desc: 'Our XGBoost model evaluates 10 financial indicators — FICO score, DTI ratio, employment stability, and more.', color: 'var(--gold-pale)' },
+              { num: '02', title: 'AI analyzes your profile', desc: 'Our XGBoost model evaluates 10 financial indicators → FICO score, DTI ratio, employment stability, and more.', color: 'var(--gold-pale)' },
               { num: '03', title: 'Receive your result', desc: 'Get a clear acceptance decision, credit score, risk band, and a full breakdown of influencing factors.', color: 'var(--cream-mid)' },
             ].map((s, i) => (
               <motion.div key={s.num} className="step-card" style={{ '--step-bg': s.color }} {...fadeUp(i * 0.12)}>
@@ -221,11 +221,11 @@ export default function LandingPage() {
           <h2>More than a<br /><em>credit check</em></h2>
           <p>
             Traditional lenders look at a handful of metrics. NexScore evaluates
-            your complete financial picture — employment history, revolving credit,
-            public records, and more — to give you a result you can actually trust.
+            your complete financial picture → employment history, revolving credit,
+            public records, and more → to give you a result you can actually trust.
           </p>
           <ul className="split-list">
-            {['10 financial features analyzed', 'Explainable AI — see every factor', 'Risk band classification', 'Instant, no-impact assessment'].map(item => (
+            {['10 financial features analyzed', 'Explainable AI → see every factor', 'Risk band classification', 'Instant, no-impact assessment'].map(item => (
               <li key={item}><span className="list-check">✦</span>{item}</li>
             ))}
           </ul>
@@ -243,12 +243,12 @@ export default function LandingPage() {
 
           <div className="features-grid">
             {[
-              { icon: '⚡', title: 'Instant Analysis', desc: 'Results delivered in under 3 seconds. No waiting, no callbacks.', bg: 'var(--sky)' },
-              { icon: '🔍', title: 'Transparent Scoring', desc: 'Every factor that influenced your result is clearly explained.', bg: 'var(--gold-pale)' },
-              { icon: '🔒', title: 'Secure & Private', desc: 'Your data is never stored or shared. Analysis happens in real time.', bg: 'var(--cream-mid)' },
-              { icon: '📊', title: 'Risk Classification', desc: 'Low, Medium, or High risk — with a full breakdown of what it means.', bg: 'var(--blue-pale)' },
-              { icon: '🧠', title: 'ML-Powered Model', desc: 'XGBoost classifier trained on 160,000 real loan records with 98.67% accuracy.', bg: 'var(--cream-mid)' },
-              { icon: '📋', title: 'Detailed Report', desc: 'Positive and negative factors listed so you know exactly where you stand.', bg: 'var(--gold-pale)' },
+              { icon: '1.', title: 'Instant Analysis', desc: 'Results delivered in under 3 seconds. No waiting, no callbacks.', bg: 'var(--sky)' },
+              { icon: '2.', title: 'Transparent Scoring', desc: 'Every factor that influenced your result is clearly explained.', bg: 'var(--gold-pale)' },
+              { icon: '3.', title: 'Secure & Private', desc: 'Your data is never stored or shared. Analysis happens in real time.', bg: 'var(--cream-mid)' },
+              { icon: '4.', title: 'Risk Classification', desc: 'Low, Medium, or High risk → with a full breakdown of what it means.', bg: 'var(--blue-pale)' },
+              { icon: '5.', title: 'ML-Powered Model', desc: 'XGBoost classifier trained on 160,000 real loan records with 98.67% accuracy.', bg: 'var(--cream-mid)' },
+              { icon: '6.', title: 'Detailed Report', desc: 'Positive and negative factors listed so you know exactly where you stand.', bg: 'var(--gold-pale)' },
             ].map((f, i) => (
               <motion.div key={f.title} className="feat-card" style={{ '--feat-bg': f.bg }} {...fadeUp(i * 0.07)}>
                 <div className="feat-icon">{f.icon}</div>
@@ -287,7 +287,7 @@ export default function LandingPage() {
           <div className="section-label">Accuracy</div>
           <h2>Data you can<br />act on</h2>
           <p>
-            Our model surfaces the exact factors driving your credit assessment —
+            Our model surfaces the exact factors driving your credit assessment →
             so you can improve your profile, not just wonder about the outcome.
           </p>
           <div className="accuracy-stats">
@@ -325,7 +325,7 @@ export default function LandingPage() {
           <span>NexScore</span>
         </div>
         <p className="footer-copy">
-          © 2026 NexScore™ — For informational purposes only. Not financial advice.
+          © 2026 NexScore™ → For informational purposes only. Not financial advice.
         </p>
         <p className="footer-credit">
           Crafted with ❤️ by{' '}

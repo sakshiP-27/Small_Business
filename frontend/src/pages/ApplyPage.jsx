@@ -5,19 +5,18 @@ import ResultPanel from '../components/ResultPanel'
 import MonthYearPicker from '../components/MonthYearPicker'
 import '../styles/Apply.css'
 
-// optional: true means the field is not required to proceed
 const STEPS = [
   {
     id: 'loan',
     title: 'Loan Details',
-    subtitle: 'Tell us about the loan you\'re seeking.',
+    subtitle: "Tell us about the loan you're seeking.",
     icon: '◈',
     fields: [
-      { key: 'loan_amnt',    label: 'Loan Amount',          type: 'number', prefix: '$', placeholder: '15000' },
-      { key: 'term',         label: 'Loan Term',            type: 'select', options: ['36 months','60 months'] },
-      { key: 'purpose',      label: 'Loan Purpose',         type: 'select', options: ['debt_consolidation','credit_card','home_improvement','major_purchase','medical','car','small_business','vacation','moving','house','renewable_energy','educational','other'] },
-      { key: 'int_rate',     label: 'Interest Rate',        type: 'number', suffix: '%', placeholder: '12.5' },
-      { key: 'installment',  label: 'Monthly Installment',  type: 'number', prefix: '$', placeholder: '502.30', optional: true, hint: 'Leave blank if unknown' },
+      { key: 'loan_amnt',   label: 'Loan Amount',         type: 'number', prefix: '$', placeholder: '15000',  tooltip: 'The total amount of money you want to borrow.' },
+      { key: 'term',        label: 'Loan Term',           type: 'select', options: ['36 months','60 months'],  tooltip: 'Duration over which you will repay the loan.' },
+      { key: 'purpose',     label: 'Loan Purpose',        type: 'select', options: ['debt_consolidation','credit_card','home_improvement','major_purchase','medical','car','small_business','vacation','moving','house','renewable_energy','educational','other'], tooltip: 'The primary reason you are taking this loan.' },
+      { key: 'int_rate',    label: 'Interest Rate',       type: 'number', suffix: '%', placeholder: '12.5',   tooltip: 'Annual interest rate charged on the loan, expressed as a percentage.' },
+      { key: 'installment', label: 'Monthly Installment', type: 'number', prefix: '$', placeholder: '502.30', tooltip: 'Fixed monthly payment amount including principal and interest.', optional: true, hint: 'Leave blank if unknown' },
     ]
   },
   {
@@ -26,11 +25,11 @@ const STEPS = [
     subtitle: 'A bit about your financial background.',
     icon: '◇',
     fields: [
-      { key: 'annual_inc',          label: 'Annual Income',         type: 'number', prefix: '$', placeholder: '75000' },
-      { key: 'emp_length',          label: 'Employment Length',     type: 'select', options: ['< 1 year','1 year','2 years','3 years','4 years','5 years','6 years','7 years','8 years','9 years','10+ years'] },
-      { key: 'home_ownership',      label: 'Home Ownership',        type: 'select', options: ['RENT','OWN','MORTGAGE','OTHER'] },
-      { key: 'verification_status', label: 'Income Verification',   type: 'select', options: ['Verified','Source Verified','Not Verified'] },
-      { key: 'dti',                 label: 'Debt-to-Income Ratio',  type: 'number', suffix: '%', placeholder: '18.5', hint: 'Monthly debt ÷ monthly income × 100' },
+      { key: 'annual_inc',          label: 'Annual Income',        type: 'number', prefix: '$', placeholder: '75000', tooltip: 'Your total yearly income before taxes.' },
+      { key: 'emp_length',          label: 'Employment Length',    type: 'select', options: ['< 1 year','1 year','2 years','3 years','4 years','5 years','6 years','7 years','8 years','9 years','10+ years'], tooltip: 'How long you have been employed at your current or most recent job.' },
+      { key: 'home_ownership',      label: 'Home Ownership',       type: 'select', options: ['RENT','OWN','MORTGAGE','OTHER'], tooltip: 'Your current housing situation → whether you rent, own outright, or have a mortgage.' },
+      { key: 'verification_status', label: 'Income Verification',  type: 'select', options: ['Verified','Source Verified','Not Verified'], tooltip: 'Whether your income has been independently verified by the lender.' },
+      { key: 'dti',                 label: 'Debt-to-Income Ratio', type: 'number', suffix: '%', placeholder: '18.5', tooltip: 'Your total monthly debt payments divided by gross monthly income, as a percentage. Lower is better.', hint: 'Monthly debt ÷ monthly income × 100' },
     ]
   },
   {
@@ -39,11 +38,11 @@ const STEPS = [
     subtitle: 'Your credit profile helps us assess risk accurately.',
     icon: '◉',
     fields: [
-      { key: 'fico_range_low',   label: 'FICO Score (Low)',               type: 'number', placeholder: '700' },
-      { key: 'fico_range_high',  label: 'FICO Score (High)',              type: 'number', placeholder: '704' },
-      { key: 'earliest_cr_line', label: 'Earliest Credit Line',           type: 'monthyear', placeholder: 'Jan-2010' },
-      { key: 'inq_last_6mths',   label: 'Credit Inquiries (Last 6 mo.)', type: 'number', placeholder: '1' },
-      { key: 'delinq_2yrs',      label: 'Delinquencies (Last 2 yrs)',    type: 'number', placeholder: '0', optional: true },
+      { key: 'fico_range_low',   label: 'FICO Score (Low)',              type: 'number', placeholder: '700',      tooltip: 'The lower bound of your FICO credit score range. Scores range from 300 to 850.' },
+      { key: 'fico_range_high',  label: 'FICO Score (High)',             type: 'number', placeholder: '704',      tooltip: 'The upper bound of your FICO credit score range.' },
+      { key: 'earliest_cr_line', label: 'Earliest Credit Line',          type: 'monthyear', placeholder: 'Jan-2010', tooltip: 'The month and year your oldest credit account was opened. Longer history is generally better.' },
+      { key: 'inq_last_6mths',   label: 'Credit Inquiries (Last 6 mo.)', type: 'number', placeholder: '1',        tooltip: 'Number of hard credit inquiries in the past 6 months. More inquiries can lower your score.' },
+      { key: 'delinq_2yrs',      label: 'Delinquencies (Last 2 yrs)',    type: 'number', placeholder: '0',        tooltip: 'Number of times you were 30+ days past due on a payment in the last 2 years.', optional: true },
     ]
   },
   {
@@ -52,24 +51,24 @@ const STEPS = [
     subtitle: 'Details about your existing credit accounts.',
     icon: '⬡',
     fields: [
-      { key: 'open_acc',   label: 'Open Credit Accounts',    type: 'number', placeholder: '8' },
-      { key: 'total_acc',  label: 'Total Credit Accounts',   type: 'number', placeholder: '20' },
-      { key: 'revol_bal',  label: 'Revolving Balance',       type: 'number', prefix: '$', placeholder: '5000' },
-      { key: 'revol_util', label: 'Revolving Utilization',   type: 'number', suffix: '%', placeholder: '35.0' },
-      { key: 'pub_rec',    label: 'Public Records',          type: 'number', placeholder: '0', optional: true },
+      { key: 'open_acc',   label: 'Open Credit Accounts',  type: 'number', placeholder: '8',    tooltip: 'Total number of currently open credit lines (cards, loans, etc.).' },
+      { key: 'total_acc',  label: 'Total Credit Accounts', type: 'number', placeholder: '20',   tooltip: 'Total number of credit accounts ever opened, including closed ones.' },
+      { key: 'revol_bal',  label: 'Revolving Balance',     type: 'number', prefix: '$', placeholder: '5000', tooltip: 'Total outstanding balance across all revolving credit accounts (e.g. credit cards).' },
+      { key: 'revol_util', label: 'Revolving Utilization', type: 'number', suffix: '%', placeholder: '35.0', tooltip: 'Percentage of your revolving credit limit currently in use. Below 30% is ideal.' },
+      { key: 'pub_rec',    label: 'Public Records',        type: 'number', placeholder: '0',    tooltip: 'Number of derogatory public records such as bankruptcies or tax liens.', optional: true },
     ]
   },
   {
     id: 'advanced',
     title: 'Final Details',
-    subtitle: 'Almost there — just a few more data points.',
+    subtitle: 'Almost there → just a few more data points.',
     icon: '✦',
     fields: [
-      { key: 'pub_rec_bankruptcies',  label: 'Public Record Bankruptcies',        type: 'number', placeholder: '0', optional: true },
-      { key: 'delinq_amnt',           label: 'Delinquent Amount',                 type: 'number', prefix: '$', placeholder: '0', optional: true },
-      { key: 'num_tl_30dpd',          label: 'Accounts 30 Days Past Due',         type: 'number', placeholder: '0', optional: true },
-      { key: 'num_tl_90g_dpd_24m',    label: 'Accounts 90+ Days Past Due (24mo)', type: 'number', placeholder: '0', optional: true },
-      { key: 'issue_d',               label: 'Issue Date',                        type: 'monthyear', placeholder: 'Mar-2026' },
+      { key: 'pub_rec_bankruptcies', label: 'Public Record Bankruptcies',         type: 'number', placeholder: '0', tooltip: 'Number of public record bankruptcies on file.', optional: true },
+      { key: 'delinq_amnt',          label: 'Delinquent Amount',                  type: 'number', prefix: '$', placeholder: '0', tooltip: 'Total dollar amount currently past due across all accounts.', optional: true },
+      { key: 'num_tl_30dpd',         label: 'Accounts 30 Days Past Due',          type: 'number', placeholder: '0', tooltip: 'Number of accounts currently 30 days past due.', optional: true },
+      { key: 'num_tl_90g_dpd_24m',   label: 'Accounts 90+ Days Past Due (24mo)', type: 'number', placeholder: '0', tooltip: 'Number of accounts that were 90+ days past due in the last 24 months.', optional: true },
+      { key: 'issue_d',              label: 'Issue Date',                         type: 'monthyear', placeholder: 'Mar-2026', tooltip: 'The month and year the loan is expected to be issued.' },
     ]
   }
 ]
@@ -103,14 +102,15 @@ function validate(fields, values) {
   })
   return errors
 }
+
 export default function ApplyPage() {
   const navigate = useNavigate()
-  const [step, setStep]     = useState(0)
-  const [dir, setDir]       = useState(1)
-  const [values, setValues] = useState(DEFAULT_VALUES)
+  const [step, setStep]       = useState(0)
+  const [dir, setDir]         = useState(1)
+  const [values, setValues]   = useState(DEFAULT_VALUES)
   const [touched, setTouched] = useState({})
-  const [errors, setErrors] = useState({})
-  const [result, setResult] = useState(null)
+  const [errors, setErrors]   = useState({})
+  const [result, setResult]   = useState(null)
   const [loading, setLoading] = useState(false)
   const [apiError, setApiError] = useState(null)
 
@@ -128,7 +128,6 @@ export default function ApplyPage() {
     const errs = validate(current.fields, values)
     if (Object.keys(errs).length > 0) {
       setErrors(errs)
-      // mark all required fields as touched so errors show
       const t = {}
       current.fields.forEach(f => { if (!f.optional) t[f.key] = true })
       setTouched(prev => ({ ...prev, ...t }))
@@ -191,7 +190,7 @@ export default function ApplyPage() {
       <aside className="apply-sidebar">
         <div className="sidebar-logo" onClick={() => navigate('/')}>
           <LogoMark />
-          <span>NexScore</span>
+          <span>CreditSense</span>
         </div>
 
         <div className="sidebar-intro">
@@ -202,10 +201,7 @@ export default function ApplyPage() {
           {STEPS.map((s, i) => (
             <div key={s.id} className={`sidebar-step ${i === step ? 'active' : ''} ${i < step ? 'done' : ''}`}>
               <div className="step-dot">
-                {i < step
-                  ? <CheckIcon />
-                  : <span>{i + 1}</span>
-                }
+                {i < step ? <CheckIcon /> : <span>{i + 1}</span>}
               </div>
               <div className="step-info">
                 <div className="step-name">{s.title}</div>
@@ -252,7 +248,7 @@ export default function ApplyPage() {
           <div className="topbar-counter">Step {step + 1} / {STEPS.length}</div>
         </div>
 
-        {/* step icon + heading */}
+        {/* form area */}
         <div className="form-area">
           <AnimatePresence mode="wait" custom={dir}>
             <motion.div
@@ -284,6 +280,12 @@ export default function ApplyPage() {
                           ? <span className="optional-tag">optional</span>
                           : <span className="required-star">*</span>
                         }
+                        {field.tooltip && (
+                          <span className="field-tooltip-wrap">
+                            <span className="field-info-icon">i</span>
+                            <span className="field-tooltip-box">{field.tooltip}</span>
+                          </span>
+                        )}
                       </label>
 
                       {field.type === 'select' ? (

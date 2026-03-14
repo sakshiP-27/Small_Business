@@ -32,7 +32,7 @@ export default function ResultPanel({ result, onReset }) {
   const pct      = Math.min((credit_score / 850) * 100, 100)
   const offset   = CIRCUMFERENCE * (1 - pct / 100)
 
-  // strip ✓/✗ prefix the backend adds — we render our own indicators
+  // strip ✓/✗ prefix the backend adds → we render our own indicators
   const clean = s => s.replace(/^[✓✗]\s*/, '').trim()
 
   return (
