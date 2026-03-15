@@ -104,7 +104,7 @@ export default function LandingPage() {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.55 }}
           >
-            {[['< 3s', 'Result time'], ['10', 'Model features'], ['98.67%', 'Model accuracy']].map(([val, lbl]) => (
+            {[['< 3s', 'Result time'], ['10', 'Model features'], ['96.73%', 'Model accuracy']].map(([val, lbl]) => (
               <div key={lbl} className="hero-stat">
                 <span className="stat-val">{val}</span>
                 <span className="stat-lbl">{lbl}</span>
@@ -247,7 +247,7 @@ export default function LandingPage() {
               { icon: '2.', title: 'Transparent Scoring', desc: 'Every factor that influenced your result is clearly explained.', bg: 'var(--gold-pale)' },
               { icon: '3.', title: 'Secure & Private', desc: 'Your data is never stored or shared. Analysis happens in real time.', bg: 'var(--cream-mid)' },
               { icon: '4.', title: 'Risk Classification', desc: 'Low, Medium, or High risk → with a full breakdown of what it means.', bg: 'var(--blue-pale)' },
-              { icon: '5.', title: 'ML-Powered Model', desc: 'XGBoost classifier trained on 160,000 real loan records with 98.67% accuracy.', bg: 'var(--cream-mid)' },
+              { icon: '5.', title: 'ML-Powered Model', desc: 'XGBoost classifier trained on 1,000,000 real loan records with 96.73% accuracy.', bg: 'var(--cream-mid)' },
               { icon: '6.', title: 'Detailed Report', desc: 'Positive and negative factors listed so you know exactly where you stand.', bg: 'var(--gold-pale)' },
             ].map((f, i) => (
               <motion.div key={f.title} className="feat-card" style={{ '--feat-bg': f.bg }} {...fadeUp(i * 0.07)}>
@@ -291,7 +291,7 @@ export default function LandingPage() {
             so you can improve your profile, not just wonder about the outcome.
           </p>
           <div className="accuracy-stats">
-            {[['850', 'Max credit score'], ['98.67%', 'Model accuracy'], ['10', 'Features analyzed']].map(([v, l]) => (
+            {[['850', 'Max credit score'], ['96.73%', 'Model accuracy'], ['10', 'Features analyzed']].map(([v, l]) => (
               <div key={l} className="acc-stat">
                 <div className="acc-val">{v}</div>
                 <div className="acc-lbl">{l}</div>

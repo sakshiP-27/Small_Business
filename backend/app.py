@@ -35,31 +35,73 @@ def risk_band(score: int) -> str:
     return 'High Risk'
 
 def plain_english(feat: str, val, sv: float) -> str:
-    pos = sv < 0  # negative SHAP = reduces rejection = good
-    good, bad = "✓", "✗"
-    mark = good if pos else bad
-
+    pos = sv < 0  # negative SHAP = reduces rejection probability = good
     try: val_f = float(val)
     except: val_f = 0
-
-    templates = {
-        'fico_range_high':  f"{mark} FICO score (high) of {int(val_f)}",
-        'fico_range_low':   f"{mark} FICO score (low) of {int(val_f)}",
-        'fico_mid':         f"{mark} FICO midpoint of {int(val_f)}",
-        'emp_stability':    f"{mark} Employment stability score of {int(val_f)}",
-        'dti_bucket':       f"{mark} DTI in range {feat.replace('dti_bucket_','').replace('_','+').replace('-',' – ')}%",
-        'dti':              f"{mark} Debt-to-income ratio of {val_f:.1f}%",
-        'loan_amnt':        f"{mark} Loan amount of ${val_f:,.0f}",
-    }
     fn = feat.lower()
-    # match dti_bucket before dti
+
     if 'dti_bucket' in fn:
-        label = feat.replace('dti_bucket_','').replace('_','+')
-        return f"{mark} DTI in range {label}%"
-    for key, text in templates.items():
-        if fn == key or fn.startswith(key):
-            return text
-    return f"{mark} {feat.replace('_',' ').title()} = {val_f:.2f}"
+        label = feat.replace('dti_bucket_', '').replace('_', '+')
+        if pos:
+            return f"Your debt-to-income ratio falls in the {label}% range, which is within an acceptable range for most lenders."
+        else:
+            return f"Your debt-to-income ratio falls in the {label}% range. A high DTI means a large portion of your income is already committed to debt, which concerns lenders."
+
+    if fn in ('fico_range_low', 'fico_range_high', 'fico_mid'):
+        score = int(val_f)
+        if pos:
+            if score >= 750:
+                return f"Your FICO score of {score} is excellent. Scores above 750 place you in the top tier of borrowers and strongly support loan approval."
+            elif score >= 670:
+                return f"Your FICO score of {score} is good. This is above the typical approval threshold and reflects a solid credit history."
+            else:
+                return f"Your FICO score of {score} is fair. While not disqualifying, improving it above 670 would significantly strengthen your application."
+        else:
+            if score < 580:
+                return f"Your FICO score of {score} is poor. This is below most lenders' minimum thresholds and is a primary reason for concern in your application."
+            elif score < 670:
+                return f"Your FICO score of {score} is below average. Lenders typically prefer scores above 670 — this is likely one of the biggest factors working against your application."
+            else:
+                return f"Your FICO score of {score} is contributing negatively relative to other applicants in the model's assessment."
+
+    if fn == 'emp_stability':
+        if pos:
+            if val_f >= 11:
+                return "Your employment history of 10+ years is exceptional. Long-term stable employment is one of the strongest signals of financial reliability."
+            elif val_f >= 6:
+                return f"Your employment stability of around {int(val_f) - 1}–{int(val_f)} years is solid. Consistent employment history reassures lenders of steady income."
+            else:
+                return "Your employment history shows some stability, which is a positive factor in your assessment."
+        else:
+            if val_f <= 1:
+                return "Your employment history is less than 1 year. Lenders prefer at least 2 years of stable employment — short tenure raises questions about income consistency."
+            else:
+                return f"Your employment stability of around {int(val_f) - 1}–{int(val_f)} years is below what lenders typically prefer. Longer tenure strengthens your application."
+
+    if fn == 'dti':
+        if pos:
+            if val_f <= 15:
+                return f"Your debt-to-income ratio of {val_f:.1f}% is very low. Only a small portion of your income goes toward debt, leaving plenty of room for a new loan."
+            else:
+                return f"Your debt-to-income ratio of {val_f:.1f}% is within an acceptable range for most lenders."
+        else:
+            if val_f >= 40:
+                return f"Your debt-to-income ratio of {val_f:.1f}% is very high. More than 40% of your income is already going toward debt payments, which makes lenders hesitant to add more."
+            else:
+                return f"Your debt-to-income ratio of {val_f:.1f}% is elevated. Lenders generally prefer a DTI below 36% — reducing existing debt would improve your standing."
+
+    if fn == 'loan_amnt':
+        if pos:
+            return f"The requested loan amount of ${val_f:,.0f} is reasonable relative to your financial profile and doesn't appear to be a strain on your capacity."
+        else:
+            return f"The requested loan amount of ${val_f:,.0f} is high relative to your current financial profile. Requesting a smaller amount may improve your approval chances."
+
+    # fallback
+    label = feat.replace('_', ' ').title()
+    if pos:
+        return f"Your {label} is a positive factor in your credit assessment."
+    else:
+        return f"Your {label} is flagged as a concern in your credit assessment."
 
 def preprocess(body: dict) -> pd.DataFrame:
     fico_low  = float(body.get('fico_range_low', 0) or 0)
@@ -147,63 +189,78 @@ def predict():
             negative.append(text)
 
     # Also add human-readable context from the full payload
-    # (fields not in the model but useful to show)
     extra_positive, extra_negative = [], []
 
     annual_inc = body.get('annual_inc', 0)
-    if annual_inc >= 60000:
-        extra_positive.append(f"✓ Annual income of ${annual_inc:,.0f}")
+    if annual_inc >= 100000:
+        extra_positive.append(f"Your annual income of ${annual_inc:,.0f} is strong and well above typical lender thresholds, which significantly improves your borrowing capacity.")
+    elif annual_inc >= 60000:
+        extra_positive.append(f"Your annual income of ${annual_inc:,.0f} meets most lenders' minimum requirements and supports your requested loan amount.")
     elif annual_inc > 0:
-        extra_negative.append(f"✗ Annual income of ${annual_inc:,.0f}")
+        extra_negative.append(f"Your annual income of ${annual_inc:,.0f} may be considered low relative to the loan amount requested. Lenders typically prefer higher income to ensure repayment ability.")
 
     revol_util = body.get('revol_util', 0)
-    if revol_util <= 30:
-        extra_positive.append(f"✓ Revolving utilization of {revol_util:.1f}%")
-    elif revol_util >= 70:
-        extra_negative.append(f"✗ High revolving utilization of {revol_util:.1f}%")
+    if revol_util <= 10:
+        extra_positive.append(f"Your credit utilization is just {revol_util:.1f}% — excellent. Keeping utilization below 10% signals to lenders that you're not over-relying on credit.")
+    elif revol_util <= 30:
+        extra_positive.append(f"Your credit utilization of {revol_util:.1f}% is healthy. Staying under 30% is a positive signal that you manage your credit responsibly.")
+    elif revol_util <= 60:
+        extra_negative.append(f"Your credit utilization is {revol_util:.1f}%, which is moderate but elevated. Lenders prefer this below 30% — consider paying down balances to improve your profile.")
+    else:
+        extra_negative.append(f"Your credit utilization of {revol_util:.1f}% is high. This suggests you're heavily reliant on available credit, which is a red flag for lenders. Paying down revolving balances would meaningfully improve your score.")
 
     inq = body.get('inq_last_6mths', 0)
-    if inq >= 3:
-        extra_negative.append(f"✗ {int(inq)} credit inquiries in last 6 months")
-    elif inq == 0:
-        extra_positive.append("✓ No recent credit inquiries")
+    if inq == 0:
+        extra_positive.append("You have no recent credit inquiries in the last 6 months. This tells lenders you haven't been aggressively seeking new credit, which is a positive sign.")
+    elif inq <= 2:
+        extra_negative.append(f"You have {int(inq)} credit inquiry(s) in the last 6 months. Each inquiry can slightly lower your score — multiple inquiries suggest you may be seeking credit urgently.")
+    else:
+        extra_negative.append(f"You have {int(inq)} credit inquiries in the last 6 months. This is a significant concern — it signals financial stress or urgency to lenders and can noticeably hurt your application.")
 
     delinq = body.get('delinq_2yrs', 0)
-    if delinq > 0:
-        extra_negative.append(f"✗ {int(delinq)} delinquencies in last 2 years")
+    if delinq == 0:
+        extra_positive.append("You have no delinquencies in the past 2 years. A clean payment history is one of the most important factors lenders look at.")
+    elif delinq == 1:
+        extra_negative.append(f"You have 1 delinquency in the last 2 years. Even a single missed payment can raise concerns — lenders want to see a consistent on-time payment history.")
+    else:
+        extra_negative.append(f"You have {int(delinq)} delinquencies in the last 2 years. This is a serious negative signal. It indicates a pattern of missed payments, which significantly increases perceived risk.")
 
     pub_rec = body.get('pub_rec', 0)
-    if pub_rec > 0:
-        extra_negative.append(f"✗ {int(pub_rec)} public record(s) on file")
-
-    revol_bal = body.get('revol_bal', 0)
-    if revol_bal > 0:
-        extra_positive.append(f"✓ Revolving balance of ${revol_bal:,.0f}")
-
-    installment = body.get('installment', 0)
-    if installment > 0:
-        extra_positive.append(f"✓ Monthly installment of ${installment:,.0f}")
+    if pub_rec == 0:
+        extra_positive.append("Your public record is clean — no bankruptcies, liens, or judgments on file. This is an important trust signal for lenders.")
+    else:
+        extra_negative.append(f"You have {int(pub_rec)} public record(s) on file (such as bankruptcies or court judgments). These are serious derogatory marks that can heavily impact approval chances.")
 
     int_rate = body.get('int_rate', 0)
     if int_rate > 0:
-        if int_rate <= 10:
-            extra_positive.append(f"✓ Low interest rate of {int_rate:.2f}%")
-        elif int_rate >= 20:
-            extra_negative.append(f"✗ High interest rate of {int_rate:.2f}%")
+        if int_rate <= 8:
+            extra_positive.append(f"Your current interest rate of {int_rate:.1f}% is very low, reflecting a strong credit history and low risk profile.")
+        elif int_rate <= 15:
+            extra_positive.append(f"Your interest rate of {int_rate:.1f}% is within a normal range, suggesting a reasonably healthy credit profile.")
+        elif int_rate <= 20:
+            extra_negative.append(f"Your interest rate of {int_rate:.1f}% is above average. This may reflect past credit issues and can signal elevated risk to lenders.")
+        else:
+            extra_negative.append(f"Your interest rate of {int_rate:.1f}% is high, which typically indicates a riskier credit profile. Lenders may view this as a sign of prior financial difficulty.")
 
     open_acc = body.get('open_acc', 0)
     total_acc = body.get('total_acc', 0)
-    if open_acc > 0:
-        extra_positive.append(f"✓ {int(open_acc)} open credit accounts")
-    if total_acc > 0:
-        extra_positive.append(f"✓ {int(total_acc)} total credit accounts")
+    if total_acc >= 10 and open_acc >= 3:
+        extra_positive.append(f"You have {int(open_acc)} open accounts out of {int(total_acc)} total. A diverse, established credit history like this demonstrates experience managing multiple credit lines.")
+    elif total_acc < 3:
+        extra_negative.append(f"You only have {int(total_acc)} total credit account(s). A thin credit history makes it harder for lenders to assess your reliability — building more credit history over time will help.")
+
+    revol_bal = body.get('revol_bal', 0)
+    if revol_bal > 50000:
+        extra_negative.append(f"Your revolving balance of ${revol_bal:,.0f} is quite high. Large outstanding balances increase your debt load and may concern lenders about your ability to take on more.")
+    elif revol_bal > 0:
+        extra_positive.append(f"Your revolving balance of ${revol_bal:,.0f} is manageable and within a reasonable range.")
 
     # Merge model SHAP explanations with extra context, deduplicate
     seen = set()
     def dedup(items):
         out = []
         for item in items:
-            key = item[2:]  # strip ✓/✗ prefix for dedup key
+            key = item.strip()
             if key not in seen:
                 seen.add(key)
                 out.append(item)

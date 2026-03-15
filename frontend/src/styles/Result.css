@@ -127,7 +127,83 @@
 }
 .res-new-btn:hover { background: rgba(184,151,58,0.1); border-color: var(--gold-warm); }
 
-/* ── HERO VERDICT ── */
+/* ── VERDICT CARD ── */
+.res-verdict-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 52px;
+  border-radius: 14px;
+  border: 1px solid;
+  margin-bottom: 32px;
+  backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+}
+
+.res-verdict-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(255,255,255,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.vc-accepted {
+  background: rgba(74, 222, 128, 0.07);
+  border-color: rgba(74, 222, 128, 0.35);
+  box-shadow: 0 8px 40px rgba(74, 222, 128, 0.12), inset 0 1px 0 rgba(74,222,128,0.08);
+}
+
+.vc-rejected {
+  background: rgba(248, 113, 113, 0.07);
+  border-color: rgba(248, 113, 113, 0.35);
+  box-shadow: 0 8px 40px rgba(248, 113, 113, 0.12), inset 0 1px 0 rgba(248,113,113,0.08);
+}
+
+.vc-label {
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(247, 243, 236, 0.4);
+  font-weight: 500;
+}
+
+.vc-status-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vc-icon {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.vc-accepted .vc-icon { color: #4ade80; }
+.vc-rejected .vc-icon { color: #f87171; }
+
+.vc-status {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.vc-accepted .vc-status {
+  color: #4ade80;
+  text-shadow: 0 0 24px rgba(74, 222, 128, 0.4);
+}
+
+.vc-rejected .vc-status {
+  color: #f87171;
+  text-shadow: 0 0 24px rgba(248, 113, 113, 0.4);
+}
+
+/* ── VERDICT BADGE (old) ── */
 .res-hero {
   display: flex;
   flex-direction: column;
@@ -346,12 +422,12 @@
   align-items: flex-start;
   gap: 10px;
   font-size: 13.5px;
-  line-height: 1.55;
+  line-height: 1.65;
   font-weight: 300;
 }
 
-.positive-item { color: rgba(247,243,236,0.72); }
-.negative-item { color: rgba(247,243,236,0.72); }
+.positive-item { color: rgba(247,243,236,0.80); }
+.negative-item { color: rgba(247,243,236,0.80); }
 
 .fi-dot {
   width: 6px; height: 6px;

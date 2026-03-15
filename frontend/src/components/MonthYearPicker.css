@@ -45,13 +45,14 @@
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
-  z-index: 200;
+  z-index: 9999;
   background: var(--white);
   border: 1.5px solid var(--cream-dark);
   border-radius: 14px;
   padding: 16px;
   box-shadow: 0 12px 40px rgba(11,25,41,0.14), 0 2px 8px rgba(11,25,41,0.06);
-  width: 240px;
+  min-width: 240px;
+  width: 100%;
 }
 
 /* year row */

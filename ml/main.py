@@ -17,7 +17,7 @@ accepted_df = pd.read_csv("sme1.csv")
 rejected_df = pd.read_csv("sme2.csv")
 print(f"  Accepted: {len(accepted_df):,} | Rejected: {len(rejected_df):,}")
 
-SAMPLE_SIZE = 80_000
+SAMPLE_SIZE = 500_000
 accepted_df = accepted_df.sample(n=min(SAMPLE_SIZE, len(accepted_df)), random_state=42)
 rejected_df = rejected_df.sample(n=min(SAMPLE_SIZE, len(rejected_df)), random_state=42)
 print(f"  Sampled  → Accepted: {len(accepted_df):,} | Rejected: {len(rejected_df):,}")

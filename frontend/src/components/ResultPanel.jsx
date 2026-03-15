@@ -32,7 +32,7 @@ export default function ResultPanel({ result, onReset }) {
   const pct      = Math.min((credit_score / 850) * 100, 100)
   const offset   = CIRCUMFERENCE * (1 - pct / 100)
 
-  // strip ✓/✗ prefix the backend adds → we render our own indicators
+  // strip ✓/✗ prefix the backend may add → we render our own indicators
   const clean = s => s.replace(/^[✓✗]\s*/, '').trim()
 
   return (
@@ -80,14 +80,16 @@ export default function ResultPanel({ result, onReset }) {
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.1 }}
         >
-          <motion.div className="res-verdict-badge"
-            style={{ '--v-color': accepted ? '#4ade80' : '#f87171', '--v-glow': accepted ? 'rgba(74,222,128,0.15)' : 'rgba(248,113,113,0.15)' }}
-            initial={{ scale: 0.7, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2, type: 'spring', stiffness: 200 }}
+          <motion.div className={`res-verdict-card ${accepted ? 'vc-accepted' : 'vc-rejected'}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className="verdict-icon">{accepted ? '✓' : '✕'}</span>
-            <span className="verdict-text">{loan_status}</span>
+            <span className="vc-label">Your Loan is</span>
+            <div className="vc-status-row">
+              <span className="vc-icon">{accepted ? '✓' : '✕'}</span>
+              <span className="vc-status">{loan_status}</span>
+            </div>
           </motion.div>
 
           <motion.h1 className="res-headline"

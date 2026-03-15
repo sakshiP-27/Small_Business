@@ -278,7 +278,7 @@
 .form-area {
   flex: 1;
   padding: 52px 64px 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .form-step { padding-bottom: 8px; }
